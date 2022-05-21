@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { supabase } from "./supabaseClient";
 
+import Button from "@mui/material/Button";
+
 export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -40,8 +42,12 @@ export default function Auth() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            <br></br>
+            <br></br>
             <button className="button block" aria-live="polite">
-              Send magic link
+              <Button variant="text" size="small">
+                Send magic link
+              </Button>
             </button>
           </form>
         )}
