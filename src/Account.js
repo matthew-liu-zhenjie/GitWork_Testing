@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 
+import { Link } from "react-router-dom";
+
+import { useContextMenu, Menu, Item, Separator } from "react-contexify";
+
 const Account = ({ session }) => {
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState(null);
@@ -15,21 +19,22 @@ const Account = ({ session }) => {
     try {
       setLoading(true);
       const user = supabase.auth.user();
+      if (user !== null) {
+        let { data, error, status } = await supabase
+          .from("profiles")
+          .select(`username, website, avatar_url`)
+          .eq("id", user.id)
+          .single();
 
-      let { data, error, status } = await supabase
-        .from("profiles")
-        .select(`username, website, avatar_url`)
-        .eq("id", user.id)
-        .single();
+        if (error && status !== 406) {
+          throw error;
+        }
 
-      if (error && status !== 406) {
-        throw error;
-      }
-
-      if (data) {
-        setUsername(data.username);
-        setWebsite(data.website);
-        setAvatarUrl(data.avatar_url);
+        if (data) {
+          setUsername(data.username);
+          setWebsite(data.website);
+          setAvatarUrl(data.avatar_url);
+        }
       }
     } catch (error) {
       alert(error.message);
@@ -106,6 +111,18 @@ const Account = ({ session }) => {
       >
         Sign Out
       </button>
+
+      <nav
+        style={{
+          borderBottom: "solid 1px",
+          paddingBottom: "1rem"
+        }}
+      >
+        <br></br>
+        <Link to="/management">Management</Link> |{" "}
+        <Link to="/roster_booking">Roster Booking</Link> |{" "}
+        <Link to="/view_roster">View Roster </Link>
+      </nav>
     </div>
   );
 };

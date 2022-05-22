@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import Management from "./routes/management";
 import RosterBooking from "./routes/RosterBooking";
+import ViewRoster from "./routes/ViewRoster";
 
 const rootElement = document.getElementById("root");
 
@@ -21,6 +22,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="management" element={<Management />} />
         <Route path="roster_booking" element={<RosterBooking />} />
+        <Route path="view_roster" element={<ViewRoster />} />
         <Route
           path="*"
           element={
